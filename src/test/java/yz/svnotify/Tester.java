@@ -35,7 +35,18 @@ public class Tester {
   @Test
   public void staticFactory() {
     final SvnCommit svnCommit = SvnCommit.of(argument);
+    Assert.assertNotNull(svnCommit);
     System.out.println(svnCommit.getMessage());
     System.out.println(svnCommit.getFileList());
+  }
+
+  @Test
+  public void info() {
+    final String revision = "Last Changed Rev: 1173".substring(18);
+    System.out.println(revision);
+    final String latChangedAuthor = "Last Changed Author: yuanzhen".substring(21);
+    System.out.println(latChangedAuthor);
+    final String lastChangedDate = "Last Changed Date: 2017-11-23 18:43:23 +0800 (四, 23 11月 2017)".substring(19, 38);
+    System.out.println(lastChangedDate);
   }
 }

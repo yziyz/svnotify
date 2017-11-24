@@ -1,6 +1,11 @@
 package yz.svnotify;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * 主类
@@ -20,7 +25,11 @@ public class Main {
   public static void main(String[] args) throws IOException, InterruptedException {
     //获取返回值
     final String argument = arrayToString(args);
+    final SvnCommit svnCommit = SvnCommit.of(argument);
     log(argument, "/home/user/log");
+    if (svnCommit != null) {
+      log("实例" + svnCommit.toString(), "/home/user/log");
+    }
     final int exitCode = exec(String.format(COMMAND, argument));
     System.exit(exitCode);
   }
@@ -55,7 +64,7 @@ public class Main {
               System.out.println(line);
               try {
                 log(line, "/home/user/out");
-              } catch (FileNotFoundException e) {
+              } catch (IOException e) {
                 e.printStackTrace();
               }
             }));
@@ -73,9 +82,9 @@ public class Main {
     return process.exitValue();
   }
 
-  private static void log(String string, String path) throws FileNotFoundException {
-    final PrintWriter printWriter = new PrintWriter(path);
-    printWriter.write(string);
-    printWriter.close();
+  private static void log(String string, String path) throws IOException {
+    final BufferedWriter bufferedWriter = Files.newBufferedWriter(Paths.get(path));
+    bufferedWriter.write(string);
+    bufferedWriter.flush();
   }
 }

@@ -22,6 +22,9 @@ import java.util.regex.Pattern;
 @Data
 public class SvnCommit {
 
+  /**
+   * 模式
+   */
   public static final Pattern PATTERN = Pattern.compile("^--config-dir (.+?) " +
           "commit " +
           "--depth empty " +
@@ -40,6 +43,12 @@ public class SvnCommit {
 
   private String fileList;
 
+  /**
+   * 静态工厂
+   *
+   * @param argument 参数字符串
+   * @return 若参数字符串匹配，则返回提交实例，否则返回空
+   */
   static SvnCommit of(final String argument) {
     final Matcher matcher = PATTERN.matcher(argument);
     final boolean isMatch = matcher.find();
@@ -60,14 +69,17 @@ public class SvnCommit {
       new BufferedReader(new InputStreamReader(process.getInputStream()))
               .lines()
               .forEach(line -> {
-                if (line.startsWith("Revision")) {
-                  svnCommit.setRevision(Integer.parseInt(line.substring(10)));
+                //设置最后修订版本
+                if (line.startsWith("Last Changed Rev")) {
+                  svnCommit.setRevision(Integer.parseInt(line.substring(18)));
                 }
+                //设置最后修改作者
                 if (line.startsWith("Last Changed Author")) {
                   svnCommit.setLastChangedAuthor(line.substring(21));
                 }
+                //设置最后修改时间
                 if (line.startsWith("Last Changed Date")) {
-                  svnCommit.setLastChangeDate(line.substring(20));
+                  svnCommit.setLastChangeDate(line.substring(19, 38));
                 }
               });
       process.waitFor();
