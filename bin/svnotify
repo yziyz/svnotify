@@ -1,2 +1,1 @@
-#!/bin/bash
-java -jar /home/user/project/svnotify/target/svnotify-1.0-jar-with-dependencies.jar $*
+java -jar -DdingTalkUrl=X /home/user/project/svnotify/target/svnotify-1.0-jar-with-dependencies.jar
