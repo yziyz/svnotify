@@ -1,9 +1,13 @@
 package yz.svnotify;
 
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.nio.file.Paths;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author 袁臻
@@ -11,42 +15,57 @@ import java.nio.file.Paths;
  */
 public class Tester {
 
-  private final String argument = "--config-dir /home/user/.subversion " +
-          "commit " +
-          "--depth empty " +
-          "--non-interactive " +
-          "-F /home/user/commit-message.txt " +
-          "--config-option config:miscellany:log-encoding=UTF-8 " +
-          "/home/user/project/svnotify/Hello.java " +
-          "/home/user/project/svnotify/World.java";
+    final String log = "------------------------------------------------------------------------\n" +
+            "r1218 | yanglei | 2017-11-24 16:13:51 +0800 (五, 24 11月 2017) | 1 line\n" +
+            "Changed paths:\n" +
+            "   M /trunk/SourceCode/JAVA/omts/src/main/java/cn/com/vdin/cato/common/constant/table/HrForeignPersonAccountEnum.java\n" +
+            "   M /trunk/SourceCode/JAVA/omts/src/main/java/cn/com/vdin/cato/common/constant/table/SysDictType.java\n" +
+            "   M /trunk/SourceCode/JAVA/omts/src/main/java/cn/com/vdin/cato/dao/HrForeignPersonAccountDAO.java\n" +
+            "   M /trunk/SourceCode/JAVA/omts/src/main/java/cn/com/vdin/cato/domain/HrForeignPersonAccount.java\n" +
+            "   M /trunk/SourceCode/JAVA/omts/src/main/java/cn/com/vdin/cato/domain/SysUser.java\n" +
+            "   M /trunk/SourceCode/JAVA/omts/src/main/java/cn/com/vdin/cato/dto/admin/HrForeignPersonAccountIndexDTO.java\n" +
+            "   M /trunk/SourceCode/JAVA/omts/src/main/java/cn/com/vdin/cato/dto/app/AppHrForeignPersonAccountCreateDTO.java\n" +
+            "   M /trunk/SourceCode/JAVA/omts/src/main/java/cn/com/vdin/cato/service/admin/HrForeignPersonAccountService.java\n" +
+            "   M /trunk/SourceCode/JAVA/omts/src/main/java/cn/com/vdin/cato/service/app/AppHrForeignPersonAccountService.java\n" +
+            "   M /trunk/SourceCode/JAVA/omts/src/main/java/cn/com/vdin/cato/vo/admin/HrForeignPersonHaveCheckedShowVO.java\n" +
+            "   M /trunk/SourceCode/JAVA/omts/src/main/java/cn/com/vdin/cato/vo/admin/HrForeignPersonNotCheckedShowVO.java\n" +
+            "\n" +
+            "修改外来人员管理\n" +
+            "------------------------------------------------------------------------\n";
 
+    final String pattern = "^\\-{72}\\n(?<revision>r.+?) \\| (?<author>.+?) \\| (?<time>.+?) \\| (.+?)\\n(Changed paths:\\n(?<changedPaths>(   M .+?)\\n)+?)\\n(?<commitMessage>.+?)\\n\\-{72}\n$";
 
-  @Test
-  public void parse() {
-    Assert.assertTrue(SvnCommit.PATTERN.matcher(argument).find());
-  }
+    final Pattern compile = Pattern.compile(pattern);
 
-  @Test
-  public void getWorkingPath() {
-    //System.out.println(System.getProperty("user.dir"));
-    System.out.println(Paths.get(".").toAbsolutePath().normalize().toString());
-  }
+    @Test
+    public void match() {
+        final Matcher matcher = compile.matcher(log);
+        System.out.println(matcher.find());
+        final MatchResult matchResult = matcher.toMatchResult();
+        for (int i = 1; i <= matchResult.groupCount(); i++) {
+            System.out.println(i + ":\n" + matchResult.group(i));
+        }
+    }
 
-  @Test
-  public void staticFactory() {
-    final SvnCommit svnCommit = SvnCommit.of(argument);
-    Assert.assertNotNull(svnCommit);
-    System.out.println(svnCommit.getMessage());
-    System.out.println(svnCommit.getFileList());
-  }
+    @Test
+    public void parse() {
+        final SvnLog svnLog = SvnLog.of(log);
+        System.out.println(svnLog.toString());
+        System.out.println("\nBU");
+    }
 
-  @Test
-  public void info() {
-    final String revision = "Last Changed Rev: 1173".substring(18);
-    System.out.println(revision);
-    final String latChangedAuthor = "Last Changed Author: yuanzhen".substring(21);
-    System.out.println(latChangedAuthor);
-    final String lastChangedDate = "Last Changed Date: 2017-11-23 18:43:23 +0800 (四, 23 11月 2017)".substring(19, 38);
-    System.out.println(lastChangedDate);
-  }
+    @Test
+    public void getWorkingPath() {
+        //System.out.println(System.getProperty("user.dir"));
+        System.out.println(Paths.get(".").toAbsolutePath().normalize().toString());
+    }
+
+    @Test
+    public void staticFactory() {
+        Assert.assertNotNull(SvnLog.of(log));
+    }
+
+    @Test
+    public void info() {
+    }
 }
