@@ -3,7 +3,14 @@
 # 1 使用方法
 ## 1.1 下载
 从[GutHub](https://github.com/yziyz/svnotify/releases/download/1.0/svnotify-1.0-bin.zip)下载程序到本地并解压，假定文件夹路径
-为"D:/svnotify"；
+为"D:\svnotify"；
+
+## 1.2 修改变量
+
+修改`bin/svnotify`的`dingTalkUrl`和`jar文件的路径`，修改后的内容例如：
+```
+java -jar -DdingTalkUrl=https://oapi.dingtalk.com/robot/send?access_token=909d1b06a713fbc28c611c6b4db26eb317c9ed1sd3faf D:\svnotify\svnotify-1.0-jar.jar
+```
 
 ## 1.2 设置IDEA Intellij
 导航至"File > Settings > Tools > External Tools"，点击绿色加号，如图：
