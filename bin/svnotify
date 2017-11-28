@@ -1,1 +1,1 @@
-java -jar -DdingTalkUrl=X /home/user/project/svnotify/target/svnotify-1.0-jar-with-dependencies.jar
+java -jar -DdingTalkUrl=https://oapi.dingtalk.com/robot/send?access_token=909d1b06a713fbc28c611c6b4db26eb317c9ed1751a116e2ef7367160a8df6d2 /home/user/svnotify/svnotify-1.0.jar
