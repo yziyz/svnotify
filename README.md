@@ -2,7 +2,7 @@
 
 # 1 使用方法
 ## 1.1 下载
-从[GutHub](https://github.com/yziyz/svnotify/releases/download/1.0/svnotify-1.0-bin.zip)下载程序到本地并解压，假定文件夹路径
+从[GutHub](https://github.com/yziyz/svnotify/releases/download/1.0/svnotify-1.0.zip)下载程序到本地并解压，假定文件夹路径
 为"D:\svnotify"；
 
 ## 1.2 修改变量
