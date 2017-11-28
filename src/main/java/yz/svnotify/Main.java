@@ -8,7 +8,7 @@ import static yz.svnotify.Utils.getLog;
 import static yz.svnotify.Utils.update;
 
 /**
- * Main class
+ * 主类
  *
  * @author yziyz
  * 2017/11/23 16:56
@@ -16,14 +16,14 @@ import static yz.svnotify.Utils.update;
 public final class Main {
 
     /**
-     * Logger instance
+     * 日志实例
      */
     private static Logger log = Logger.getLogger(Main.class.getName());
 
     /**
-     * Main method
+     * 主方法
      *
-     * @param args commandline arguments list
+     * @param args 命令行参数数组
      */
     public static void main(String[] args) throws IOException, InterruptedException {
         update();
