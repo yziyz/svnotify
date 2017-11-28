@@ -18,8 +18,7 @@ final class Constants {
 
     static final String COMMAND_SVN_LOG = "svn -v -r%s log";
 
-    static final Pattern PATTERN = Pattern.compile("^\\-{72}\\n(?<revision>r.+?) \\| (?<author>.+?) \\| (?<time>.+?) " +
-            "\\| (.+?)\\n(Changed paths:\\n(?<changedPaths>(   M .+?)\\n)+?)\\n(?<commitMessage>.+?)\\n\\-{72}\n$");
+    static final Pattern PATTERN = Pattern.compile("^(?<revision>r.+?) \\| (?<author>.+?) \\| (?<time>.+?) \\| (.+?)$");
 
     static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
