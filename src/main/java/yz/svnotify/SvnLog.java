@@ -27,27 +27,6 @@ final class SvnLog {
 
     private String changedPaths;
 
-    /**
-     * 静态工厂
-     *
-     * @param log 日志字符串
-     * @return 实例
-     */
-    static SvnLog of(String log) {
-        final Matcher matcher = Constants.PATTERN.matcher(log);
-        if (matcher.find()) {
-            return SvnLog.builder()
-                    .revision(matcher.group("revision").substring(1))
-                    .author(matcher.group("author"))
-                    .time(matcher.group("time").substring(0, 19))
-                    .changedPaths(matcher.group(5).substring(15))
-                    .commitMessage(matcher.group("commitMessage"))
-                    .build();
-        } else {
-            return null;
-        }
-    }
-
     @Override
     public String toString() {
         return "版本:" + revision +
