@@ -6,9 +6,12 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
@@ -75,9 +78,7 @@ final class Utils {
     }
 
     static SvnLog getLog(final String revision) throws IOException {
-        final Process process = Runtime.getRuntime().exec(
-                String.format(Constants.COMMAND_SVN_LOG, revision)
-        );
+        final Process process = Runtime.getRuntime().exec(String.format(Constants.COMMAND_SVN_LOG, revision));
         final SvnLog svnLog = SvnLog.builder().build();
         final StringBuilder stringBuilder = new StringBuilder();
         final List<String> stringList = new BufferedReader(new InputStreamReader(process.getInputStream())).lines().collect(Collectors.toList());
@@ -90,7 +91,7 @@ final class Utils {
             svnLog.setTime(matcher.group("time").substring(0, 19));
         }
         svnLog.setCommitMessage(stringList.get(stringList.size() - 2));
-        for (int i = 3; i < stringList.size() - 4; i++) {
+        for (int i = 3; i < stringList.size() - 3; i++) {
             stringBuilder.append(stringList.get(i)).append('\n');
         }
         svnLog.setChangedPaths(stringBuilder.toString());
