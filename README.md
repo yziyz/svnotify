@@ -24,7 +24,7 @@ java -jar -DdingTalkUrl=https://oapi.dingtalk.com/robot/send?access_token=x D:\s
 填写`Name`为`svnotify`(可为任意值)，`Program`为`D:\svnotify\svnotify.bat`(脚本的路径)，
 `Working Directory`为`$ProjectFileDir$`(IDEA内置宏)
 
-> 注：Windows系统的脚本文件需要拓展名`.bat`，类Unix的脚本文件则不需要，为了兼容性，脚本文件命名为`svnotify.bat`
+> 注：Windows系统的脚本文件需要拓展名`.bat`，类Unix系统的脚本文件则不需要，为了兼容性，脚本文件命名为`svnotify.bat`
 
 ![](bin/image/2.png)
 
