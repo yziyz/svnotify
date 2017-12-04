@@ -6,14 +6,14 @@
 
 # 2 使用方法
 ## 2.1 下载
-下载[程序](https://github.com/yziyz/svnotify/raw/master/bin/svnotify-1.0.zip)到本地并解压，假定文件夹路径
+下载[程序](https://github.com/yziyz/svnotify/raw/master/bin/svnotify.zip)到本地并解压，假定文件夹路径
 为`D:\svnotify`；
 
 ## 2.2 修改变量
 
 修改`bin/svnotify.bat`的`dingTalkUrl`和`jar文件的路径`，修改后的内容例如：
 ```
-java -jar -DdingTalkUrl=https://oapi.dingtalk.com/robot/send?access_token=x D:\svnotify\svnotify-1.0.jar
+java -jar -DdingTalkUrl=https://oapi.dingtalk.com/robot/send?access_token=x D:\svnotify\svnotify-1.1.jar
 ```
 
 ## 2.2 设置IDEA Intellij
