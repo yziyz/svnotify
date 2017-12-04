@@ -2,6 +2,8 @@ package yz.svnotify;
 
 import okhttp3.MediaType;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.regex.Pattern;
 
 /**
@@ -27,4 +29,6 @@ final class Constants {
     static final String MESSAGE_TEMPLATE = "{\"msgtype\":\"text\",\"text\":{\"content\":\"%s\"}}";
 
     static final Pattern PROJECT_NAME_PATTERN = Pattern.compile("SourceCode\\/JAVA\\/(.+?)\\/");
+
+    static final File WORKING_DIRECTORY = new File(Paths.get(".").toAbsolutePath().normalize().toString());
 }
