@@ -4,8 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.regex.Matcher;
-
 /**
  * SVN日志
  *
@@ -17,6 +15,8 @@ import java.util.regex.Matcher;
 @Builder
 final class SvnLog {
 
+    private String projectName;
+
     private String revision;
 
     private String commitMessage;
@@ -25,14 +25,17 @@ final class SvnLog {
 
     private String time;
 
-    private String changedPaths;
-
     @Override
     public String toString() {
-        return "版本:" + revision +
-                "\n作者:" + author +
-                "\n信息:" + commitMessage +
-                "\n时间:" + time +
-                "\n改动:\n" + changedPaths;
+        final StringBuilder stringBuilder = new StringBuilder();
+        if (projectName != null) {
+            stringBuilder.append("项目:").append(projectName);
+        }
+        stringBuilder.append("\n版本:").append(revision)
+                .append("\n作者:").append(author)
+                .append("\n时间:").append(time)
+                .append("\n信息:").append(commitMessage)
+                .append('\n');
+        return stringBuilder.toString();
     }
 }
