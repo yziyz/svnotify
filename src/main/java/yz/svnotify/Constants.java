@@ -18,11 +18,13 @@ final class Constants {
 
     static final String COMMAND_SVN_LOG = "svn -v -r%s log";
 
-    static final Pattern PATTERN = Pattern.compile("^(?<revision>r.+?) \\| (?<author>.+?) \\| (?<time>.+?) \\| (.+?)$");
+    static final Pattern LOG_PATTERN = Pattern.compile("^(?<revision>r.+?) \\| (?<author>.+?) \\| (?<time>.+?) \\| (.+?)$");
 
     static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     static final String DING_TALK_URL = System.getProperty("dingTalkUrl");
 
     static final String MESSAGE_TEMPLATE = "{\"msgtype\":\"text\",\"text\":{\"content\":\"%s\"}}";
+
+    static final Pattern PROJECT_NAME_PATTERN = Pattern.compile("SourceCode\\/JAVA\\/(.+?)\\/");
 }
