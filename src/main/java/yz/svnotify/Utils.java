@@ -98,11 +98,15 @@ final class Utils {
         );
         final SvnLog svnLog = SvnLog.builder().build();
         //获取进程输出字符串列表
-        final List<String> stringList = new BufferedReader(new InputStreamReader(process.getInputStream()))
+        final List<String> outputLines = new BufferedReader(new InputStreamReader(process.getInputStream()))
                 .lines()
                 .collect(Collectors.toList());
-        //匹配日志
-        final Matcher logMatcher = Constants.LOG_PATTERN.matcher(stringList.get(1));
+        //若行数小于5，抛出异常
+        if (outputLines.size() < Constants.MIN_LINES_COUNT) {
+            throw new IllegalStateException("日志信息异常: " + outputLines);
+        }
+        //解析日志
+        final Matcher logMatcher = Constants.LOG_PATTERN.matcher(outputLines.get(1));
         if (!logMatcher.find()) {
             throw new IllegalStateException("解析日志信息出错");
         } else {
@@ -110,10 +114,11 @@ final class Utils {
             svnLog.setAuthor(logMatcher.group("author"));
             svnLog.setTime(logMatcher.group("time").substring(0, 19));
         }
-        svnLog.setCommitMessage(stringList.get(stringList.size() - 2));
+        //设置提交消息
+        svnLog.setCommitMessage(outputLines.get(outputLines.size() - 2));
         //匹配项目名称
-        if (!stringList.isEmpty()) {
-            final Matcher projectNameMatcher = Constants.PROJECT_NAME_PATTERN.matcher(stringList.get(3));
+        if (!outputLines.isEmpty()) {
+            final Matcher projectNameMatcher = Constants.PROJECT_NAME_PATTERN.matcher(outputLines.get(3));
             if (projectNameMatcher.find()) {
                 final String projectName = projectNameMatcher.group(1);
                 svnLog.setProjectName(projectName);

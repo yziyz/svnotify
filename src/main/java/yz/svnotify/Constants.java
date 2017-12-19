@@ -18,7 +18,7 @@ final class Constants {
 
     static final String COMMAND_SVN_REVISION = "svn info --show-item=revision";
 
-    static final String COMMAND_SVN_LOG = "svn -v -r%s log";
+    static final String COMMAND_SVN_LOG = "svn -r%s log";
 
     static final Pattern LOG_PATTERN = Pattern.compile("^(?<revision>r.+?) \\| (?<author>.+?) \\| (?<time>.+?) \\| (.+?)$");
 
@@ -31,4 +31,6 @@ final class Constants {
     static final Pattern PROJECT_NAME_PATTERN = Pattern.compile("SourceCode\\/JAVA\\/(.+?)\\/");
 
     static final File WORKING_DIRECTORY = new File(Paths.get(".").toAbsolutePath().normalize().toString());
+
+    static final int MIN_LINES_COUNT = 5;
 }
