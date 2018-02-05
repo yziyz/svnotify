@@ -29,13 +29,12 @@ final class SvnLog {
     public String toString() {
         final StringBuilder stringBuilder = new StringBuilder();
         if (projectName != null) {
-            stringBuilder.append("项目:").append(projectName);
+            stringBuilder.append("项目:").append(projectName).append("\n");
         }
-        stringBuilder.append("\n版本:").append(revision)
+        stringBuilder.append("版本:").append(revision)
                 .append("\n作者:").append(author)
                 .append("\n时间:").append(time)
-                .append("\n信息:").append(commitMessage)
-                .append('\n');
+                .append("\n信息:").append(commitMessage);
         return stringBuilder.toString();
     }
 }
