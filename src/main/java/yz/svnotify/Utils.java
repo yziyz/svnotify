@@ -6,6 +6,7 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -88,25 +89,25 @@ final class Utils {
     }
 
     static SvnLog getLog(final String revision) throws IOException {
-        //创建进程
-        final String command = String.format(Constants.COMMAND_SVN_LOG, revision);
-        log.info("路径:" + Constants.WORKING_DIRECTORY.getAbsolutePath() + "命令:" + command);
-        final Process process = Runtime.getRuntime().exec(
-                command,
+        //查看日志
+        final String logCommand = String.format(Constants.COMMAND_SVN_LOG, revision);
+        log.info("路径:" + Constants.WORKING_DIRECTORY.getAbsolutePath() + "，命令:" + logCommand);
+        final Process logProcess = Runtime.getRuntime().exec(
+                logCommand,
                 null,
                 Constants.WORKING_DIRECTORY
         );
         final SvnLog svnLog = SvnLog.builder().build();
         //获取进程输出字符串列表
-        final List<String> outputLines = new BufferedReader(new InputStreamReader(process.getInputStream()))
+        final List<String> logLines = new BufferedReader(new InputStreamReader(logProcess.getInputStream()))
                 .lines()
                 .collect(Collectors.toList());
         //若行数小于5，抛出异常
-        if (outputLines.size() < Constants.MIN_LINES_COUNT) {
-            throw new IllegalStateException("日志信息异常: " + outputLines);
+        if (logLines.size() < Constants.MIN_LINES_COUNT) {
+            throw new IllegalStateException("日志信息异常: " + logLines);
         }
         //解析日志
-        final Matcher logMatcher = Constants.LOG_PATTERN.matcher(outputLines.get(1));
+        final Matcher logMatcher = Constants.LOG_PATTERN.matcher(logLines.get(1));
         if (!logMatcher.find()) {
             throw new IllegalStateException("解析日志信息出错");
         } else {
@@ -115,10 +116,20 @@ final class Utils {
             svnLog.setTime(logMatcher.group("time").substring(0, 19));
         }
         //设置提交消息
-        svnLog.setCommitMessage(outputLines.get(outputLines.size() - 2));
-        //匹配项目名称
-        if (!outputLines.isEmpty()) {
-            final Matcher projectNameMatcher = Constants.PROJECT_NAME_PATTERN.matcher(outputLines.get(3));
+        svnLog.setCommitMessage(logLines.get(logLines.size() - 2));
+
+        //项目名称
+        log.info("路径:" + Constants.WORKING_DIRECTORY.getAbsolutePath() + "，命令:" + Constants.COMMAND_SVN_URL);
+        final Process projectNameProcess = Runtime.getRuntime().exec(
+                Constants.COMMAND_SVN_URL,
+                null,
+                Constants.WORKING_DIRECTORY
+        );
+        final List<String> projectNameLines = new BufferedReader(new InputStreamReader(projectNameProcess.getInputStream()))
+                .lines()
+                .collect(Collectors.toList());
+        if (!projectNameLines.isEmpty()) {
+            final Matcher projectNameMatcher = Constants.PROJECT_NAME_PATTERN.matcher(projectNameLines.get(0));
             if (projectNameMatcher.find()) {
                 final String projectName = projectNameMatcher.group(1);
                 svnLog.setProjectName(projectName);
